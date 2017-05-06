@@ -8,19 +8,11 @@ You will need to install [Python 3](https://www.python.org/downloads/) or [Anaco
 
 ## Requirements
 
-You will need to install the following:
+You can install the requirements by running:
 ```
-$ pip install discord.py
+$ pip install -r requirements.txt
 ```
-```
-$ pip install aiohttp
-```
-```
-$ pip install websockets
-```
-```
-$ pip install requests
-```
+
 
 ## Commands
 
