@@ -86,43 +86,24 @@ async def hello(*greetings : str):
     await Viking.say(random.choice(greetings))
 
 ### Calculator ###
-# Viking can do the following: add, subtract, multiply, divide, exponent and square root.
-# eg. *add 1 1 1
-# eg. *subtract 6 2 2
-# eg. *multiply 3 3 3
-# eg. *divide 16 4 2
-# eg. *exponent 5 2
-# eg. *squareroot 16 4
+# Viking supports the following operators: +, -, *, /, ^
+# (add, subtract, multiply, divide, exponent)
+# you can also use words like "6 minus 3"
+"""word translation not yet implemented"""
+# however the values must always be numerical
 
 @Viking.command()
-async def add(*args):
-    args = list(map(int, args))
-    args = reduce(operator.__add__, args)
-    await Viking.say(args)
-
-@Viking.command()
-async def subtract(*args):
-    args = list(map(int, args))
-    args = reduce(operator.__sub__, args)
-    await Viking.say(args)
-
-@Viking.command()
-async def multiply(*args):
-    args = list(map(int, args))
-    args = reduce(operator.__mul__, args)
-    await Viking.say(args)
-
-@Viking.command()
-async def divide(*args):
-    args = list(map(int, args))
-    args = reduce(operator.__truediv__, args)
-    await Viking.say(args)
-
-@Viking.command()
-async def exponent(*args):
-    args = list(map(int, args))
-    args = reduce(operator.__pow__, args)
-    await Viking.say(args)
+async def calc(*args):
+    try:
+        args = list(args)
+        original = ''.join(args)
+        args = [x.replace('^', '**') for x in args]
+        problem = ''.join(args)
+        answer = eval(problem)
+    except:
+        await Viking.say("I don't understand that non-sense")
+        return
+    await Viking.say(original+' = '+str(answer))
 
 @Viking.command()
 async def squareroot(x : int):
