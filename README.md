@@ -60,20 +60,10 @@ $ pip install requests
 ***status**
 * Viking will change its status in Discord. (*eg.* ***status Discord**)
 
-***add**
-* Viking will add any numbers that are separated by a space. (*eg.* ***add 1 1 1**)
-
-***subtract**
-* Viking will subtract any numbers that are separated by a space. (*eg.* ***subtract 2 2 2**)
-
-***multiply**
-* Viking will multiply any numbers that are separated by a space. (*eg.* ***multiply 3 3 3**)
-
-***divide**
-* Viking will divide any numbers that are separated by a space (*eg.* ***divide 16 4 2**)
-
-***exponent**
-* Viking will multiply the base number by an exponent. (*eg.* ***exponent 5 2**)
+***calc**
+* Viking will calculate whatever expression you give it (*eg.* ***calc 6\*3** or ***calc 10-2**)
+* Supported operators +, -, *, /, %, ^
+* Ignores whitespace
 
 ***squareroot**
 * Viking will squareroot a number. (*eg.* ***squareroot 16**)
