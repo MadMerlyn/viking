@@ -6,9 +6,10 @@ from math import sqrt
 import random
 from random import randint
 
+### Bot Prefix ###
+# You must use an asterisk * before any command to use Viking.
+
 Viking = commands.Bot(command_prefix='*')
-    """### Bot Prefix ###
-    You must use an asterisk * before any command to use Viking."""
 
 @Viking.event
 async def on_ready():
