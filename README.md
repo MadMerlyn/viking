@@ -54,11 +54,8 @@ $ pip install -r requirements.txt
 
 ***calc**
 * Viking will calculate whatever expression you give it (*eg.* ***calc 6\*3** or ***calc 10-2**)
-* Supported operators +, -, *, /, %, ^
+* Supported operators +, -, *, /, %, ^, sqrt()
 * Ignores whitespace
-
-***squareroot**
-* Viking will squareroot a number. (*eg.* ***squareroot 16**)
 
 ## To-Do List
 * Blackjack
