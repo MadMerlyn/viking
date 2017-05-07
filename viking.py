@@ -3,9 +3,7 @@ from discord.ext import commands
 import asyncio
 import pyowm
 from math import sqrt
-import operator
 import random
-from functools import reduce
 
 ### Bot Prefix ###
 # You must use an asterisk * before any command to use Viking.
