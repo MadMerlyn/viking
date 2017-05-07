@@ -37,6 +37,7 @@ async def calc(*args):
     try:
         args = list(args)
         original = ''.join(args)
+        original = original.replace('*', '\*')
         problem = ''.join(args)
         problem = problem.replace('^', '**')
         answer = eval(problem, {'__builtins__': None}, {'sqrt':sqrt})
