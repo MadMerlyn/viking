@@ -13,7 +13,8 @@ from functools import reduce
 Viking = commands.Bot(command_prefix='*')
 
 ### Successfully Connected ###
-# When Viking has connected to your server, it will output it to the command prompt.
+# When Viking has connected to your server, 
+#it will output it to the command prompt.
 
 @Viking.event
 async def on_ready():
@@ -56,7 +57,12 @@ async def squareroot(x : int):
 
 @Viking.command()
 async def eightball(str, *choices : str):
-    choices = ["Absolutely!", "It is certain.", "It is decidedly so.", "Without a doubt.", "Yes, definitely.", "As I see it, yes.", "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.", "Hell yes.", "Ask me again later.", "I better not tell.", "Don't count on it.", "My reply is no.", "My sources say no.", "Outlook not so good.", "Very doubtful."]
+    choices = ["Absolutely!", "It is certain.", "It is decidedly so.", 
+               "Without a doubt.", "Yes, definitely.", "As I see it, yes.", 
+               "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.", 
+               "Hell yes.", "Ask me again later.", "I better not tell.", 
+               "Don't count on it.", "My reply is no.", "My sources say no.", 
+               "Outlook not so good.", "Very doubtful."]
     await Viking.say(random.choice(choices))
 
 ### Facts ###
@@ -65,7 +71,16 @@ async def eightball(str, *choices : str):
 
 @Viking.command()
 async def facts(*facts : str):
-    facts = ["Banging your head against a wall burns 150 calories an hour.", "When hippos are upset, their sweat turns red.", "A flock of crows is known as a murder.", "The average woman uses her height in lipstick every 5 years.", "Human saliva has a boiling point three times that of regular water.", "During your lifetime, you will produce enough saliva to fill two swimming pools.", "An eagle can kill a young deer and fly away with it.", "King Henry VIII slept with a gigantic axe beside him."]
+    facts = [
+    "Banging your head against a wall burns 150 calories an hour.", 
+    "When hippos are upset, their sweat turns red.", 
+    "A flock of crows is known as a murder.", 
+    "The average woman uses her height in lipstick every 5 years.", 
+    "Human saliva has a boiling point three times that of regular water.", 
+    "During your lifetime, you will produce enough saliva to fill two\
+    swimming pools.",
+    "An eagle can kill a young deer and fly away with it.",
+    "King Henry VIII slept with a gigantic axe beside him."]
     await Viking.say(random.choice(facts))
 
 ### Quotes ###
@@ -74,7 +89,16 @@ async def facts(*facts : str):
 
 @Viking.command()
 async def quotes(*quotes : str):
-    quotes = ["“You can do anything, but not everything.” - David Allen", "“The richest man is not he who has the most, but he who needs the least” - Unknown Author", "“You miss 100 percent of the shows you never take.” - Wayne Gretzky", "“Courage is not the absence of fear, but rather the judgement that something else is more important than fear.” - Ambrose Redmoon", "“You must be the change you wish to see in the world” - Gandhi", "“When hungry, eat your rice; when tired, close your eyes. Fools may laugh at me, but wise men will know what I mean.” - Lin-Chi",]
+    quotes = [
+    "“You can do anything, but not everything.” - David Allen", 
+    "“The richest man is not he who has the most, but he who needsthe least”\
+    - Unknown Author", 
+    "“You miss 100 percent of the shows you never take.” -Wayne Gretzky",
+    "“Courage is not the absence of fear, but rather the judgement\
+    that something else is more important than fear.” -Ambrose Redmoon", 
+    "“You must be the change you wish to see in the world” - Gandhi",
+    "“When hungry, eat your rice; when tired, close your eyes. Fools\
+    may laugh at me, but wise men will know what I mean.” - Lin-Chi",]
     await Viking.say(random.choice(quotes))
 
 ### Coinflip ###
@@ -112,7 +136,8 @@ async def forecast(*name : str):
     get_wind = weather.get_wind()
 
     location = "**Location:** {}".format(location.get_name())
-    temperature = "**Temperature:** {}".format(get_temperature['temp']) + u' \N{DEGREE SIGN}C'
+    temperature = "**Temperature:** {}".format(get_temperature['temp'])\
+                                        + u' \N{DEGREE SIGN}C'
     humidity = "**Humidity:** {}".format(weather.get_humidity()) + "%"
     windspeed = "**Wind Speed:** {}".format(get_wind['speed']) + " m/s"
     status = "**Description:** {}".format(weather.get_detailed_status())
@@ -147,7 +172,8 @@ async def status(*args):
 
 @Viking.command(pass_context=True)
 async def guess(ctx):
-    await Viking.say('Lets play a game! You have to guess a number between 1 to 10.')
+    await Viking.say('Lets play a game! You have to guess a number between\
+                     1 and 10.')
     guess = await Viking.wait_for_message(author=ctx.message.author)
 
     answer = random.randint(1, 10)
@@ -159,20 +185,25 @@ async def guess(ctx):
                 counter += 1
                 if int(guess.content) > answer:
                     await Viking.say('Your guess is too high! Try again.')
-                    guess = await Viking.wait_for_message(author=ctx.message.author)
+                    guess = await Viking.wait_for_message(
+                            author=ctx.message.author)
                 else:
                     await Viking.say('Your guess is too low! Try again.')
-                    guess = await Viking.wait_for_message(author=ctx.message.author)
+                    guess = await Viking.wait_for_message(
+                            author=ctx.message.author)
             else:
                 if counter <= 1:
-                    await Viking.say('Congratulations! You got it on your first try!')
+                    await Viking.say('Congratulations!\
+                                     You got it on your first try!')
                     break
                 else:
-                    await Viking.say('Congratulations! It took you **%d** tries to guess the correct answer.' % counter)
+                    await Viking.say('Congratulations! It took you\
+                    **%d** tries to guess the correct answer.' % counter)
                     break
         except ValueError:
                 await Viking.say('Please enter a number.')
-                guess = await Viking.wait_for_message(author=ctx.message.author)
+                guess = await Viking.wait_for_message(
+                        author=ctx.message.author)
                 pass
 
 ### Summon Bot ###
@@ -198,5 +229,7 @@ Viking.run('YOUR_TOKEN_HERE')
 ### Add the bot to your server ###
 # Go to: https://discordapp.com/developers/applications/me
 # Select the bot you have created
-# Copy the Client ID, and paste it into the URL below (where it says "YOUR_CLIENT_ID_HERE"):
-# Copy and paste the following into your browser: https://discordapp.com/oauth2/authorize?&client_id=YOUR_CLIENT_ID_HERE&scope=bot&permissions=0
+# Copy the Client ID, and paste it into the URL below 
+# (where it says "YOUR_CLIENT_ID_HERE"):
+# Copy and paste the following into your browser: 
+# https://discordapp.com/oauth2/authorize?&client_id=YOUR_CLIENT_ID_HERE&scope=bot&permissions=0
