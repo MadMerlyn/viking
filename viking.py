@@ -11,7 +11,7 @@ import random
 Viking = commands.Bot(command_prefix='*')
 
 ### Successfully Connected ###
-# When Viking has connected to your server, 
+# When Viking has connected to your server,
 #it will output it to the command prompt.
 
 @Viking.event
@@ -23,7 +23,7 @@ async def on_ready():
 async def hello(*greetings : str):
     """### Hello ###
     Viking will greet you with different variations of hello.
-    eg. *hello"""    
+    eg. *hello"""
     greetings = ['Hey!', 'Hello!', 'Hi!', 'Hallo!', 'Bonjour!', 'Hola!']
     await Viking.say(random.choice(greetings))
 
@@ -50,11 +50,11 @@ async def eightball(str, *choices : str):
     Viking will give you an eightball response to any question you ask.
     eg. *eightball Are you the best bot?"""
 
-    choices = ['Absolutely!', 'It is certain.', 'It is decidedly so.', 
-               'Without a doubt.', 'Yes, definitely.', 'As I see it, yes.', 
-               'Most likely.', 'Outlook good.', 'Yes.', 'Signs point to yes.', 
-               'Hell yes.', 'Ask me again later.', 'I better not tell.', 
-               'Don\'t count on it.', 'My reply is no.', 'My sources say no.', 
+    choices = ['Absolutely!', 'It is certain.', 'It is decidedly so.',
+               'Without a doubt.', 'Yes, definitely.', 'As I see it, yes.',
+               'Most likely.', 'Outlook good.', 'Yes.', 'Signs point to yes.',
+               'Hell yes.', 'Ask me again later.', 'I better not tell.',
+               'Don\'t count on it.', 'My reply is no.', 'My sources say no.',
                'Outlook not so good.', 'Very doubtful.']
     await Viking.say(random.choice(choices))
 
@@ -65,11 +65,11 @@ async def facts(*facts : str):
     eg. *facts"""
 
     facts = [
-    'Banging your head against a wall burns 150 calories an hour.', 
-    'When hippos are upset, their sweat turns red.', 
-    'A flock of crows is known as a murder.', 
-    'The average woman uses her height in lipstick every 5 years.', 
-    'Human saliva has a boiling point three times that of regular water.', 
+    'Banging your head against a wall burns 150 calories an hour.',
+    'When hippos are upset, their sweat turns red.',
+    'A flock of crows is known as a murder.',
+    'The average woman uses her height in lipstick every 5 years.',
+    'Human saliva has a boiling point three times that of regular water.',
     'During your lifetime, you will produce enough saliva to fill two\
     swimming pools.',
     'An eagle can kill a young deer and fly away with it.',
@@ -83,12 +83,12 @@ async def quotes(*quotes : str):
     eg. *quotes"""
 
     quotes = [
-    '“You can do anything, but not everything.” - David Allen', 
+    '“You can do anything, but not everything.” - David Allen',
     '“The richest man is not he who has the most, but he who needsthe least”\
-    - Unknown Author', 
+    - Unknown Author',
     '“You miss 100 percent of the shows you never take.” -Wayne Gretzky',
     '“Courage is not the absence of fear, but rather the judgement\
-    that something else is more important than fear.” -Ambrose Redmoon', 
+    that something else is more important than fear.” -Ambrose Redmoon',
     '“You must be the change you wish to see in the world” - Gandhi',
     '“When hungry, eat your rice; when tired, close your eyes. Fools\
     may laugh at me, but wise men will know what I mean.” - Lin-Chi',]
@@ -140,7 +140,7 @@ async def forecast(*name : str):
     await Viking.say(humidity)
     await Viking.say(windspeed)
     await Viking.say(status)
-    
+
 @Viking.command(pass_context=True)
 async def clear(ctx, messagelimit : int):
     """### Clear Messages ###
@@ -216,13 +216,13 @@ async def summon(ctx):
 # Click on 'Create a Bot User', then 'Yes, do it!'
 # Look for 'Token', and then 'click to reveal'.
 # Add the token below:
-    
+
 Viking.run('YOUR_TOKEN_HERE')
 
 ### Add the bot to your server ###
 # Go to: https://discordapp.com/developers/applications/me
 # Select the bot you have created
-# Copy the Client ID, and paste it into the URL below 
+# Copy the Client ID, and paste it into the URL below
 # (where it says 'YOUR_CLIENT_ID_HERE'):
-# Copy and paste the following into your browser: 
+# Copy and paste the following into your browser:
 # https://discordapp.com/oauth2/authorize?&client_id=YOUR_CLIENT_ID_HERE&scope=bot&permissions=0
