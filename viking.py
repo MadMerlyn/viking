@@ -99,7 +99,7 @@ async def calc(*args):
         original = ''.join(args)
         args = [x.replace('^', '**') for x in args]
         problem = ''.join(args)
-        answer = eval(problem)
+        answer = eval(problem, {"__builtins__": None}, {})
     except:
         await Viking.say("I don't understand that non-sense")
         return
