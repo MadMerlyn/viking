@@ -4,24 +4,24 @@ import asyncio
 import pyowm
 from math import sqrt
 import random
-
-### Bot Prefix ###
-# You must use an asterisk * before any command to use Viking.
+from random import randint
 
 Viking = commands.Bot(command_prefix='*')
-
-### Successfully Connected ###
-# When Viking has connected to your server,
-#it will output it to the command prompt.
+    """### Bot Prefix ###
+    You must use an asterisk * before any command to use Viking."""
 
 @Viking.event
 async def on_ready():
+    """ ### Successfully Connected ###
+    When Viking has connected to your server,
+    it will output it to the command prompt."""
+
     print('\nUsername: %s ' % Viking.user.name)
     print('User ID: %s ' % Viking.user.id)
 
 @Viking.command()
 async def hello(*greetings : str):
-    """### Hello ###
+    """ ### Hello ###
     Viking will greet you with different variations of hello.
     eg. *hello"""
     greetings = ['Hey!', 'Hello!', 'Hi!', 'Hallo!', 'Bonjour!', 'Hola!']
@@ -30,7 +30,7 @@ async def hello(*greetings : str):
 @Viking.command()
 async def calc(*args):
     """### Calculator ###
-    Supports +, -, *, /, %, and sqrt()"""
+    Viking supports +, -, *, /, %, and sqrt()"""
 
     try:
         args = list(args)
@@ -40,7 +40,7 @@ async def calc(*args):
         problem = problem.replace('^', '**')
         answer = eval(problem, {'__builtins__': None}, {'sqrt':sqrt})
     except:
-        await Viking.say('I\'m sorry. I don\'t understand.')
+        await Viking.say('I\'m sorry. I don\'t understand that.')
         return
     await Viking.say(original+' = '+str(answer))
 
@@ -122,18 +122,17 @@ async def forecast(*name : str):
     name = ' '.join(name)
     owm = pyowm.OWM('YOUR_TOKEN_HERE')
 
-    observation = owm.weather_at_place(name)
-    weather = observation.get_weather()
-    location = observation.get_location()
-    get_temperature = weather.get_temperature(unit='celsius')
-    get_wind = weather.get_wind()
+    observation = await Viking.loop.run_in_executor(None, partial(owm.weather_at_place, name))
+    weather = await Viking.loop.run_in_executor(None, partial(observation.get_weather))
+    location = await Viking.loop.run_in_executor(None, partial(observation.get_location))
+    get_temperature = await Viking.loop.run_in_executor(None, partial(weather.get_temperature, unit='celsius'))
+    get_wind = await Viking.loop.run_in_executor(None, partial(weather.get_wind))
 
-    location = '**Location:** {}'.format(location.get_name())
-    temperature = '**Temperature:** {}'.format(get_temperature['temp'])\
-                                        + u' \N{DEGREE SIGN}C'
-    humidity = '**Humidity:** {}'.format(weather.get_humidity()) + '%'
-    windspeed = '**Wind Speed:** {}'.format(get_wind['speed']) + ' m/s'
-    status = '**Description:** {}'.format(weather.get_detailed_status())
+    location = "**Location:** {}".format(location.get_name())
+    temperature = "**Temperature:** {}".format(get_temperature['temp']) + u' \N{DEGREE SIGN}C'
+    humidity = "**Humidity:** {}".format(weather.get_humidity()) + "%"
+    windspeed = "**Wind Speed:** {}".format(get_wind['speed']) + " m/s"
+    status = "**Description:** {}".format(weather.get_detailed_status())
 
     await Viking.say(location)
     await Viking.say(temperature)
