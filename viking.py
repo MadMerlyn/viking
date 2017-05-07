@@ -1,12 +1,11 @@
 import discord
 from discord.ext import commands
+import asyncio
+import pyowm
 import math
 import operator
 import random
-import json
-import requests
 from functools import reduce
-
 
 ### Bot Prefix ###
 # You must use an asterisk * before any command to use Viking.
@@ -21,61 +20,6 @@ async def on_ready():
     print("\nUsername: %s " % Viking.user.name)
     print("User ID: %s " % Viking.user.id)
 
-@Viking.event
-async def on_message(message):
-    if message.author == Viking.user:
-        return
-
-    ### Guessing Game ###
-    # Viking will play the guessing game.
-    # eg. *guess
-
-    if message.content.startswith('*guess'):
-        await Viking.send_message(message.channel, 'Lets play a game! You have to guess a number between 1 to 10.')
-        guess = await Viking.wait_for_message(author=message.author)
-
-        answer = random.randint(1, 10)
-        counter = 1
-
-        while True:
-            try:
-                while int(guess.content) != answer:
-                    counter += 1
-                    if int(guess.content) > answer:
-                        await Viking.send_message(message.channel, 'Your guess is too high! Try again.')
-                        guess = await Viking.wait_for_message(author=message.author)
-                    else:
-                        await Viking.send_message(message.channel, 'Your guess is too low! Try again.')
-                        guess = await Viking.wait_for_message(author=message.author)
-                else:
-                    if counter <= 1:
-                        await Viking.send_message(message.channel, 'Congratulations! You got it on your first try!')
-                        break
-                    else:
-                        await Viking.send_message(message.channel, 'Congratulations! It took you **%d** tries to guess the correct answer.' % counter)
-                        break
-            except ValueError:
-                    await Viking.send_message(message.channel, 'Please enter a number.')
-                    guess = await Viking.wait_for_message(author=message.author)
-                    pass
-
-    ### Summon Bot ###
-    # Viking will join the voice channel you're connected to.
-    # eg. *summon
-
-    if message.content.startswith('*summon'):
-        await Viking.join_voice_channel(message.author.voice_channel)
-
-    await Viking.process_commands(message)
-
-### Command List ###
-# Viking will list all available commands in the text channel.
-# eg. *commands
-
-@Viking.command()
-async def commands(*args):
-    return await Viking.say("```*hello \n*summon \n*forecast \n*guess \n*eightball \n*quotes \n*facts \n*coinflip \n*repeat \n*clear \n*add \n*subtract \n*multiply \n*divide \n*exponent \n*squareroot```")
-
 ### Hello ###
 # Viking will greet you with different variations of hello.
 # eg. *hello
@@ -88,9 +32,6 @@ async def hello(*greetings : str):
 ### Calculator ###
 # Viking supports the following operators: +, -, *, /, ^
 # (add, subtract, multiply, divide, exponent)
-# you can also use words like "6 minus 3"
-"""word translation not yet implemented"""
-# however the values must always be numerical
 
 @Viking.command()
 async def calc(*args):
@@ -101,7 +42,7 @@ async def calc(*args):
         problem = ''.join(args)
         answer = eval(problem, {"__builtins__": None}, {})
     except:
-        await Viking.say("I don't understand that non-sense")
+        await Viking.say("I'm sorry. I don't understand.")
         return
     await Viking.say(original+' = '+str(answer))
 
@@ -160,21 +101,27 @@ async def repeat(times : int, *content : str):
 # eg. *forecast Edmonton AB
 
 @Viking.command()
-async def forecast(*args):
-    args = ' '.join(args)
-    url = "http://api.openweathermap.org/data/2.5/weather?q="+args+"&units=metric&APPID=b709f57700e58b0b221c8ee2287ee098"
-    data = requests.get(url)
-    read = data.json()
-    location = "**Location:** {}".format(read['name'])
-    temperature = "**Temperature:** {}".format(read['main']['temp']) + u' \N{DEGREE SIGN}C'
-    humidity = "**Humidity:** {}".format(read['main']['humidity']) + "%"
-    windspeed = "**Wind Speed:** {}".format(read['wind']['speed']) + " m/s"
-    description = "**Description:** {}".format(read['weather'][0]['description'])
+async def forecast(*name : str):
+    name = ' '.join(name)
+    owm = pyowm.OWM('YOUR_TOKEN_HERE')
+
+    observation = owm.weather_at_place(name)
+    weather = observation.get_weather()
+    location = observation.get_location()
+    get_temperature = weather.get_temperature(unit='celsius')
+    get_wind = weather.get_wind()
+
+    location = "**Location:** {}".format(location.get_name())
+    temperature = "**Temperature:** {}".format(get_temperature['temp']) + u' \N{DEGREE SIGN}C'
+    humidity = "**Humidity:** {}".format(weather.get_humidity()) + "%"
+    windspeed = "**Wind Speed:** {}".format(get_wind['speed']) + " m/s"
+    status = "**Description:** {}".format(weather.get_detailed_status())
+
     await Viking.say(location)
     await Viking.say(temperature)
     await Viking.say(humidity)
     await Viking.say(windspeed)
-    await Viking.say(description)
+    await Viking.say(status)
 
 ### Clear Messages ###
 # Viking will clear a certain amount of messages from a text channel. (
@@ -194,19 +141,47 @@ async def status(*args):
     args = ' '.join(args)
     await Viking.change_presence(game = discord.Game(name="%s" % args))
 
-### An empty command for the guessing game. ###
-# This will prevent an error from being displayed in the command prompt.
+### Guessing Game ###
+# Viking will play the guessing game.
+# eg. *guess
 
-@Viking.command()
-async def guess():
-    print("")
+@Viking.command(pass_context=True)
+async def guess(ctx):
+    await Viking.say('Lets play a game! You have to guess a number between 1 to 10.')
+    guess = await Viking.wait_for_message(author=ctx.message.author)
 
-### An empty command to summon the bot into your channel. ###
-# This will prevent an error from being displayed in the command prompt.
+    answer = random.randint(1, 10)
+    counter = 1
 
-@Viking.command()
-async def summon():
-    print("")
+    while True:
+        try:
+            while int(guess.content) != answer:
+                counter += 1
+                if int(guess.content) > answer:
+                    await Viking.say('Your guess is too high! Try again.')
+                    guess = await Viking.wait_for_message(author=ctx.message.author)
+                else:
+                    await Viking.say('Your guess is too low! Try again.')
+                    guess = await Viking.wait_for_message(author=ctx.message.author)
+            else:
+                if counter <= 1:
+                    await Viking.say('Congratulations! You got it on your first try!')
+                    break
+                else:
+                    await Viking.say('Congratulations! It took you **%d** tries to guess the correct answer.' % counter)
+                    break
+        except ValueError:
+                await Viking.say('Please enter a number.')
+                guess = await Viking.wait_for_message(author=ctx.message.author)
+                pass
+
+### Summon Bot ###
+# Viking will join the voice channel you're connected to.
+# eg. *summon
+
+@Viking.command(pass_context=True)
+async def summon(ctx):
+    await Viking.join_voice_channel(ctx.message.author.voice_channel)
 
 ### Authenticate ###
 # Go to: https://discordapp.com/developers/applications/me
