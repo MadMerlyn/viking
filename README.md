@@ -16,8 +16,8 @@ $ pip install -r requirements.txt
 
 ## Commands
 
-***commands**
-* Viking will list all available commands in the text channel. (*eg.* ***commands**)
+***help**
+* Viking will list all available commands in the text channel. (*eg.* ***help**)
 
 ***hello**
 * Viking will greet you with different varations of "Hello". (*eg.* ***hello**)
@@ -60,7 +60,6 @@ $ pip install -r requirements.txt
 ## To-Do List
 * Blackjack
 * Hangman
-* Rock, Paper, Scissors
 
 ## License
 
