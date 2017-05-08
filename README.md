@@ -31,6 +31,9 @@ $ pip install -r requirements.txt
 ***guess**
 * Viking will play the guessing game. (*eg.* ***guess**)
 
+***rps**
+* Viking will play Rock, Paper, Scissors. (*eg.* ***rps**)
+
 ***eightball**
 * Viking will give you an eightball response to any question you ask. (*eg.* ***eightball Are you the best bot?**)
 
@@ -54,7 +57,7 @@ $ pip install -r requirements.txt
 
 ***calc**
 * Viking will calculate whatever expression you give it (*eg.* ***calc 6\*3** or ***calc 10-2**)
-* Supported operators +, -, *, /, %, ^, sqrt()
+* Supported operators: +, -, *, /, %, ^, sqrt()
 * Ignores whitespace
 
 ## To-Do List

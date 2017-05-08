@@ -7,9 +7,8 @@ import random
 from random import randint
 from functools import partial
 
-### Bot Prefix ###
+# Bot Prefix:
 # You must use an asterisk * before any command to use Viking.
-
 Viking = commands.Bot(command_prefix='*')
 
 @Viking.event
@@ -23,16 +22,16 @@ async def on_ready():
 
 @Viking.command()
 async def hello(*greetings : str):
-    """ ### Hello ###
+    """Hello:
     Viking will greet you with different variations of hello.
     eg. *hello"""
-    
+
     greetings = ['Hey!', 'Hello!', 'Hi!', 'Hallo!', 'Bonjour!', 'Hola!']
     await Viking.say(random.choice(greetings))
 
 @Viking.command()
 async def calc(*args):
-    """### Calculator ###
+    """Calculator:
     Viking supports +, -, *, /, %, and sqrt()"""
 
     try:
@@ -49,7 +48,7 @@ async def calc(*args):
 
 @Viking.command()
 async def eightball(str, *choices : str):
-    """### Eightball ###
+    """Eightball:
     Viking will give you an eightball response to any question you ask.
     eg. *eightball Are you the best bot?"""
 
@@ -63,7 +62,7 @@ async def eightball(str, *choices : str):
 
 @Viking.command()
 async def facts(*facts : str):
-    """### Facts ###
+    """Facts:
     Viking will provide you with a random fact.
     eg. *facts"""
 
@@ -81,7 +80,7 @@ async def facts(*facts : str):
 
 @Viking.command()
 async def quotes(*quotes : str):
-    """### Quotes ###
+    """Quotes:
     Viking will provide you with a random quotation.
     eg. *quotes"""
 
@@ -99,7 +98,7 @@ async def quotes(*quotes : str):
 
 @Viking.command()
 async def coinflip(*coinflip : str):
-    """### Coinflip ###
+    """Coinflip:
     Viking will randomly choose between 'heads' or 'tails'.
     eg. *coinflip"""
 
@@ -108,7 +107,7 @@ async def coinflip(*coinflip : str):
 
 @Viking.command()
 async def repeat(times : int, *content : str):
-    """### Repeat ###
+    """Repeat:
     Viking will repeat a sentence a certain amount of times.
     eg. *repeat 5 Viking is cool"""
 
@@ -118,7 +117,7 @@ async def repeat(times : int, *content : str):
 
 @Viking.command()
 async def forecast(*name : str):
-    """### Forecast ###
+    """Forecast:
     Viking will tell you the forecast for a location.
     eg. *forecast Edmonton AB"""
 
@@ -127,16 +126,16 @@ async def forecast(*name : str):
 
     observation = await Viking.loop.run_in_executor(
             None, partial(owm.weather_at_place, name))
-    
+
     weather = await Viking.loop.run_in_executor(
             None, partial(observation.get_weather))
-    
+
     location = await Viking.loop.run_in_executor(
             None, partial(observation.get_location))
-    
+
     get_temperature = await Viking.loop.run_in_executor(
             None, partial(weather.get_temperature, unit='celsius'))
-    
+
     get_wind = await Viking.loop.run_in_executor(
             None, partial(weather.get_wind))
 
@@ -156,8 +155,8 @@ async def forecast(*name : str):
 @Viking.command(pass_context=True)
 async def clear(ctx, messagelimit : int):
 
-    """### Clear Messages ###
-    Viking will clear a certain amount of messages from a text channel. (
+    """Clear Messages:
+    Viking will clear a certain amount of messages from a text channel.
     eg. *clear 100"""
 
     deleted = await Viking.purge_from(ctx.message.channel, limit=messagelimit)
@@ -165,7 +164,7 @@ async def clear(ctx, messagelimit : int):
 
 @Viking.command()
 async def status(*args):
-    """### Bot Status ###
+    """Bot Status:
     Viking will change its status in Discord.
     eg. *status Discord"""
 
@@ -174,7 +173,7 @@ async def status(*args):
 
 @Viking.command(pass_context=True)
 async def guess(ctx):
-    """### Guessing Game ###
+    """Guessing Game:
     Viking will play the guessing game.
     eg. *guess"""
 
@@ -213,8 +212,59 @@ async def guess(ctx):
                 pass
 
 @Viking.command(pass_context=True)
+async def rps(ctx):
+    """Rock, Paper, Scissors:
+    Viking will play Rock, Paper, Scissors.
+    eg. *rps"""
+
+    while True:
+        await Viking.say('Lets play **Rock, Paper, Scissors**. '
+        'Choose your weapon:')
+        choices = ['Rock', 'Paper', 'Scissors']
+        computer = choices[randint(0, 2)]
+        player = await Viking.wait_for_message(author=ctx.message.author)
+        player = player.content
+
+        beats = {
+            'Rock': ['Paper'],
+            'Paper': ['Scissors'],
+            'Scissors': ['Rock']
+        }
+
+        while computer and player in choices:
+            if computer == player:
+                result = '**Tie!** You both chose **%s**. ' % player
+                await Viking.say(result)
+                break
+            elif player in beats[computer]:
+                result = '**You win!** Viking chose: **%s** ' % computer + 'and you chose: **%s**. ' % player
+                await Viking.say(result)
+                break
+            else:
+                result = '**You lose!** Viking chose: **%s** ' % computer + 'and you chose: **%s**. ' % player
+                await Viking.say(result)
+                break
+        while computer and player in choices:
+            await Viking.say('Do you want to play again? '
+            '(Enter: **Yes** / **No**)')
+            option = await Viking.wait_for_message(author=ctx.message.author)
+            option = option.content
+
+            if option == 'Yes':
+                break
+            elif option == 'No':
+                await Viking.say('Thanks for playing!')
+                return False
+            else:
+                await Viking.say('Invalid option!')
+            continue
+        else:
+            await Viking.say('Invalid option')
+            continue
+
+@Viking.command(pass_context=True)
 async def summon(ctx):
-    """### Summon Bot ###
+    """Summon Bot:
     Viking will join the voice channel you're connected to.
     eg. *summon"""
 
