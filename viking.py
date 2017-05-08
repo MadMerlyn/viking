@@ -19,11 +19,13 @@ async def on_ready():
     print('\nUsername: %s ' % Viking.user.name)
     print('User ID: %s ' % Viking.user.id)
 
+
 @Viking.command()
 async def hello(*greetings : str):
     """### Hello ###
     Viking will greet you with different variations of hello.
     eg. *hello"""
+    
     greetings = ['Hey!', 'Hello!', 'Hi!', 'Hallo!', 'Bonjour!', 'Hola!']
     await Viking.say(random.choice(greetings))
 
@@ -43,6 +45,7 @@ async def calc(*args):
         await Viking.say('I\'m sorry. I don\'t understand.')
         return
     await Viking.say(original+' = '+str(answer))
+
 
 @Viking.command()
 async def eightball(str, *choices : str):
@@ -143,6 +146,7 @@ async def forecast(*name : str):
 
 @Viking.command(pass_context=True)
 async def clear(ctx, messagelimit : int):
+
     """### Clear Messages ###
     Viking will clear a certain amount of messages from a text channel. (
     eg. *clear 100"""
