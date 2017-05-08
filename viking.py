@@ -5,6 +5,7 @@ import pyowm
 from math import sqrt
 import random
 from random import randint
+from functools import partial
 
 ### Bot Prefix ###
 # You must use an asterisk * before any command to use Viking.
