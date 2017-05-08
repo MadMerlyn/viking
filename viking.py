@@ -21,7 +21,6 @@ async def on_ready():
     print('\nUsername: %s ' % Viking.user.name)
     print('User ID: %s ' % Viking.user.id)
 
-
 @Viking.command()
 async def hello(*greetings : str):
     """ ### Hello ###
@@ -47,7 +46,6 @@ async def calc(*args):
         await Viking.say('I\'m sorry. I don\'t understand that.')
         return
     await Viking.say(original+' = '+str(answer))
-
 
 @Viking.command()
 async def eightball(str, *choices : str):
