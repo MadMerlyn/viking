@@ -1,11 +1,11 @@
-import discord
-from discord.ext import commands
 import asyncio
 import pyowm
 from math import sqrt
 import random
 from random import randint
 from functools import partial
+import discord
+from discord.ext import commands
 
 ### Bot Prefix ###
 # You must use an asterisk * before any command to use Viking.
@@ -26,7 +26,7 @@ async def hello(*greetings : str):
     """ ### Hello ###
     Viking will greet you with different variations of hello.
     eg. *hello"""
-    
+
     greetings = ['Hey!', 'Hello!', 'Hi!', 'Hallo!', 'Bonjour!', 'Hola!']
     await Viking.say(random.choice(greetings))
 
@@ -68,15 +68,15 @@ async def facts(*facts : str):
     eg. *facts"""
 
     facts = [
-    'Banging your head against a wall burns 150 calories an hour.',
-    'When hippos are upset, their sweat turns red.',
-    'A flock of crows is known as a murder.',
-    'The average woman uses her height in lipstick every 5 years.',
-    'Human saliva has a boiling point three times that of regular water.',
-    'During your lifetime, you will produce enough saliva to fill two '
-    'swimming pools.',
-    'An eagle can kill a young deer and fly away with it.',
-    'King Henry VIII slept with a gigantic axe beside him.']
+        'Banging your head against a wall burns 150 calories an hour.',
+        'When hippos are upset, their sweat turns red.',
+        'A flock of crows is known as a murder.',
+        'The average woman uses her height in lipstick every 5 years.',
+        'Human saliva has a boiling point three times that of regular water.',
+        'During your lifetime, you will produce enough saliva to fill two '
+        'swimming pools.',
+        'An eagle can kill a young deer and fly away with it.',
+        'King Henry VIII slept with a gigantic axe beside him.']
     await Viking.say(random.choice(facts))
 
 @Viking.command()
@@ -86,15 +86,15 @@ async def quotes(*quotes : str):
     eg. *quotes"""
 
     quotes = [
-    '“You can do anything, but not everything.” - David Allen',
-    '“The richest man is not he who has the most, but he who needsthe least” '
-    '- Unknown Author',
-    '“You miss 100 percent of the shows you never take.” -Wayne Gretzky',
-    '“Courage is not the absence of fear, but rather the judgement '
-    'that something else is more important than fear.” -Ambrose Redmoon',
-    '“You must be the change you wish to see in the world” - Gandhi',
-    '“When hungry, eat your rice; when tired, close your eyes. Fools '
-    'may laugh at me, but wise men will know what I mean.” - Lin-Chi',]
+        '“You can do anything, but not everything.” - David Allen',
+        '“The richest man is not he who has the most, but he who needs the '
+        'least” - Unknown Author',
+        '“You miss 100 percent of the shows you never take.” -Wayne Gretzky',
+        '“Courage is not the absence of fear, but rather the judgement '
+        'that something else is more important than fear.” -Ambrose Redmoon',
+        '“You must be the change you wish to see in the world” - Gandhi',
+        '“When hungry, eat your rice; when tired, close your eyes. Fools '
+        'may laugh at me, but wise men will know what I mean.” - Lin-Chi',]
     await Viking.say(random.choice(quotes))
 
 @Viking.command()
@@ -126,19 +126,19 @@ async def forecast(*name : str):
     owm = pyowm.OWM('YOUR_TOKEN_HERE')
 
     observation = await Viking.loop.run_in_executor(
-            None, partial(owm.weather_at_place, name))
-    
+        None, partial(owm.weather_at_place, name))
+
     weather = await Viking.loop.run_in_executor(
-            None, partial(observation.get_weather))
-    
+        None, partial(observation.get_weather))
+
     location = await Viking.loop.run_in_executor(
-            None, partial(observation.get_location))
-    
+        None, partial(observation.get_location))
+
     get_temperature = await Viking.loop.run_in_executor(
-            None, partial(weather.get_temperature, unit='celsius'))
-    
+        None, partial(weather.get_temperature, unit='celsius'))
+
     get_wind = await Viking.loop.run_in_executor(
-            None, partial(weather.get_wind))
+        None, partial(weather.get_wind))
 
     location = "**Location:** {}".format(location.get_name())
     temperature = "**Temperature:** {}".format(get_temperature['temp'])\
@@ -179,7 +179,7 @@ async def guess(ctx):
     eg. *guess"""
 
     await Viking.say('Lets play a game! You have to guess a number '
-                            'between 1 and 10.')
+                     'between 1 and 10.')
     guess = await Viking.wait_for_message(author=ctx.message.author)
 
     answer = random.randint(1, 10)
@@ -192,11 +192,11 @@ async def guess(ctx):
                 if int(guess.content) > answer:
                     await Viking.say('Your guess is too high! Try again.')
                     guess = await Viking.wait_for_message(
-                            author=ctx.message.author)
+                        author=ctx.message.author)
                 else:
                     await Viking.say('Your guess is too low! Try again.')
                     guess = await Viking.wait_for_message(
-                            author=ctx.message.author)
+                        author=ctx.message.author)
             else:
                 if counter <= 1:
                     await Viking.say('Congratulations! '
@@ -204,12 +204,12 @@ async def guess(ctx):
                     break
                 else:
                     await Viking.say('Congratulations! It took you '
-                    '**%d** tries to guess the correct answer.' % counter)
+                         '**%d** tries to guess the correct answer.' % counter)
                     break
         except ValueError:
                 await Viking.say('Please enter a number.')
                 guess = await Viking.wait_for_message(
-                        author=ctx.message.author)
+                    author=ctx.message.author)
                 pass
 
 @Viking.command(pass_context=True)
