@@ -75,8 +75,8 @@ async def facts(*facts : str):
     'A flock of crows is known as a murder.',
     'The average woman uses her height in lipstick every 5 years.',
     'Human saliva has a boiling point three times that of regular water.',
-    'During your lifetime, you will produce enough saliva to fill two\
-    swimming pools.',
+    'During your lifetime, you will produce enough saliva to fill two '
+    'swimming pools.',
     'An eagle can kill a young deer and fly away with it.',
     'King Henry VIII slept with a gigantic axe beside him.']
     await Viking.say(random.choice(facts))
@@ -89,14 +89,14 @@ async def quotes(*quotes : str):
 
     quotes = [
     '“You can do anything, but not everything.” - David Allen',
-    '“The richest man is not he who has the most, but he who needsthe least”\
-    - Unknown Author',
+    '“The richest man is not he who has the most, but he who needsthe least” '
+    '- Unknown Author',
     '“You miss 100 percent of the shows you never take.” -Wayne Gretzky',
-    '“Courage is not the absence of fear, but rather the judgement\
-    that something else is more important than fear.” -Ambrose Redmoon',
+    '“Courage is not the absence of fear, but rather the judgement '
+    'that something else is more important than fear.” -Ambrose Redmoon',
     '“You must be the change you wish to see in the world” - Gandhi',
-    '“When hungry, eat your rice; when tired, close your eyes. Fools\
-    may laugh at me, but wise men will know what I mean.” - Lin-Chi',]
+    '“When hungry, eat your rice; when tired, close your eyes. Fools '
+    'may laugh at me, but wise men will know what I mean.” - Lin-Chi',]
     await Viking.say(random.choice(quotes))
 
 @Viking.command()
@@ -127,14 +127,24 @@ async def forecast(*name : str):
     name = ' '.join(name)
     owm = pyowm.OWM('YOUR_TOKEN_HERE')
 
-    observation = await Viking.loop.run_in_executor(None, partial(owm.weather_at_place, name))
-    weather = await Viking.loop.run_in_executor(None, partial(observation.get_weather))
-    location = await Viking.loop.run_in_executor(None, partial(observation.get_location))
-    get_temperature = await Viking.loop.run_in_executor(None, partial(weather.get_temperature, unit='celsius'))
-    get_wind = await Viking.loop.run_in_executor(None, partial(weather.get_wind))
+    observation = await Viking.loop.run_in_executor(
+            None, partial(owm.weather_at_place, name))
+    
+    weather = await Viking.loop.run_in_executor(
+            None, partial(observation.get_weather))
+    
+    location = await Viking.loop.run_in_executor(
+            None, partial(observation.get_location))
+    
+    get_temperature = await Viking.loop.run_in_executor(
+            None, partial(weather.get_temperature, unit='celsius'))
+    
+    get_wind = await Viking.loop.run_in_executor(
+            None, partial(weather.get_wind))
 
     location = "**Location:** {}".format(location.get_name())
-    temperature = "**Temperature:** {}".format(get_temperature['temp']) + u' \N{DEGREE SIGN}C'
+    temperature = "**Temperature:** {}".format(get_temperature['temp'])\
+                                    + u' \N{DEGREE SIGN}C'
     humidity = "**Humidity:** {}".format(weather.get_humidity()) + "%"
     windspeed = "**Wind Speed:** {}".format(get_wind['speed']) + " m/s"
     status = "**Description:** {}".format(weather.get_detailed_status())
@@ -170,8 +180,8 @@ async def guess(ctx):
     Viking will play the guessing game.
     eg. *guess"""
 
-    await Viking.say('Lets play a game! You have to guess a number between\
-                     1 and 10.')
+    await Viking.say('Lets play a game! You have to guess a number '
+                            'between 1 and 10.')
     guess = await Viking.wait_for_message(author=ctx.message.author)
 
     answer = random.randint(1, 10)
@@ -191,12 +201,12 @@ async def guess(ctx):
                             author=ctx.message.author)
             else:
                 if counter <= 1:
-                    await Viking.say('Congratulations!\
-                                     You got it on your first try!')
+                    await Viking.say('Congratulations! '
+                                     'You got it on your first try!')
                     break
                 else:
-                    await Viking.say('Congratulations! It took you\
-                    **%d** tries to guess the correct answer.' % counter)
+                    await Viking.say('Congratulations! It took you '
+                    '**%d** tries to guess the correct answer.' % counter)
                     break
         except ValueError:
                 await Viking.say('Please enter a number.')
