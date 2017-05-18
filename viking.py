@@ -13,7 +13,7 @@ Viking = commands.Bot(command_prefix='*')
 
 @Viking.event
 async def on_ready():
-    """ ### Successfully Connected ###
+    """Successfully Connected:
     When Viking has connected to your server,
     it will output it to the command prompt."""
 
@@ -154,7 +154,6 @@ async def forecast(*name : str):
 
 @Viking.command(pass_context=True)
 async def clear(ctx, messagelimit : int):
-
     """Clear Messages:
     Viking will clear a certain amount of messages from a text channel.
     eg. *clear 100"""
@@ -219,7 +218,7 @@ async def rps(ctx):
 
     while True:
         await Viking.say('Lets play **Rock, Paper, Scissors**. '
-        'Choose your weapon:')
+        'Pick your weapon:')
         choices = ['Rock', 'Paper', 'Scissors']
         computer = choices[randint(0, 2)]
         player = await Viking.wait_for_message(author=ctx.message.author)
@@ -270,7 +269,7 @@ async def summon(ctx):
 
     await Viking.join_voice_channel(ctx.message.author.voice_channel)
 
-### Authenticate ###
+# Authenticate:
 # Go to: https://discordapp.com/developers/applications/me
 # Login
 # Select 'New App'
@@ -282,7 +281,7 @@ async def summon(ctx):
 
 Viking.run('YOUR_TOKEN_HERE')
 
-### Add the bot to your server ###
+# Add the bot to your server:
 # Go to: https://discordapp.com/developers/applications/me
 # Select the bot you have created
 # Copy the Client ID, and paste it into the URL below
