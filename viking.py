@@ -157,7 +157,8 @@ async def clear(ctx, messagelimit : int):
     """Clear Messages:
     Viking will clear a certain amount of messages from a text channel.
     eg. *clear 100"""
-
+    #Set upper boundary of message limit due to discord limitations
+    if messagelimit > 100: messagelimit = 100
     deleted = await Viking.purge_from(ctx.message.channel, limit=messagelimit)
     await Viking.say('I have cleared **{}** messages.'.format(len(deleted)))
 
